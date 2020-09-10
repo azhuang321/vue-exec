@@ -152,25 +152,22 @@ export default {
   .swiper-box {
     .nav-menu {
       position: absolute;
-      width: 246px;
+      width: 264px;
       height: 451px;
       z-index: 9;
       padding: 26px 0;
       background-color: #55585a7a;
       box-sizing: border-box;
-
       .menu-wrap {
         .menu-item {
           height: 50px;
           line-height: 50px;
-
           a {
             position: relative;
             display: block;
             font-size: 16px;
             color: #ffffff;
             padding-left: 30px;
-
             &:after {
               position: absolute;
               right: 30px;
@@ -179,15 +176,12 @@ export default {
               @include bgImg(10px, 15px, '/imgs/icon-arrow.png');
             }
           }
-
           &:hover {
             background-color: $colorA;
-
             .children {
               display: block;
             }
           }
-
           .children {
             display: none;
             width: 962px;
