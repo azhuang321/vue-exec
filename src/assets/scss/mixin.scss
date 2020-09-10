@@ -12,3 +12,20 @@
   background: url($bgImg) no-repeat center;
   background-size: $bg-size;
 }
+@mixin position($pos:absolute,$top:0,$left:0,$w:100%,$h:100%){
+  position: $pos;
+  top: $top;
+  left: $left;
+  width: $w;
+  height: $h;
+}
+
+@mixin positionImg($position:absolute, $top:0,$right:0,$w:0px,$h:0px,$bgImg:'') {
+  position: $position;
+  top: $top;
+  right: $right;
+  width: $w;
+  height: $h;
+  background: url($bgImg) no-repeat center;
+  background-size: contain;
+}
