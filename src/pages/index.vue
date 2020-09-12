@@ -10,7 +10,7 @@
                 <ul v-for=" (item,i) in menuList" v-bind:key="i">
                   <li v-for=" (sub,j) in item" v-bind:key="j">
                     <a v-bind:href=" sub ? '/#/product/' + sub.id : ''">
-                      <img v-bind:src="sub ? sub.img : '/imgs/item-box-1.png'" alt="">
+                      <img v-lazy="sub ? sub.img : '/imgs/item-box-1.png'" alt="">
                       {{ sub ? sub.name : '小米8' }}
                     </a>
                   </li>
@@ -49,7 +49,7 @@
         </div>
         <swiper :options="swiperOptions">
           <swiper-slide v-for="(item,index) in slideList" v-bind:key="index">
-            <a v-bind:href="'/#/product/' + item.id"><img v-bind:src="item.img"></a>
+            <a v-bind:href="'/#/product/' + item.id"><img v-lazy="item.img"></a>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
           <div class="swiper-button-prev" slot="button-prev"></div>
@@ -57,13 +57,13 @@
         </swiper>
       </div>
       <div class="ads-box">
-        <a :href="'/#/product/' + item.id" v-for=" (item, index) in adsList " :key="index">
-          <img :src="item.img" alt="">
+        <a v-bind:href="'/#/product/'+item.id" v-for=" (item,index) in adsList" v-bind:key="index">
+          <img v-lazy="item.img" alt="">
         </a>
       </div>
       <div class="banner">
         <a href="/#/product/30">
-          <img src="/imgs/banner-1.png" alt="">
+          <img v-lazy="'/imgs/banner-1.png'" alt="">
         </a>
       </div>
     </div>
@@ -72,38 +72,40 @@
         <h2>手机</h2>
         <div class="wrapper">
           <div class="banner-left">
-            <a href="/#/product/35"><img src="/imgs/mix-alpha.jpg" alt=""></a>
+            <a href="/#/product/35"><img v-lazy="'/imgs/mix-alpha.jpg'" alt=""></a>
           </div>
           <div class="list-box">
-            <div class="list" v-for="(arr,i) in phoneList" :key="i">
-              <div class="item" v-for="(item,j) in arr" :key="j">
-                <span v-if="j%2==0" class="new-pro">新品</span>
-                <span v-if="j%2!=0" class="kill-pro">秒杀</span>
+            <div class="list" v-for="(arr,i) in phoneList" v-bind:key="i">
+              <div class="item" v-for="(item,j) in arr" v-bind:key="j">
+                <span v-if="j%2==0" v-bind:class="{'new-pro':j%2==0,'kill-pro':j%2 != 0}">新品</span>
+                <span v-if="j%2!=0" v-bind:class="{'new-pro':j%2==0,'kill-pro':j%2 != 0}">秒杀</span>
                 <div class="item-img">
-                  <img :src="item.mainImage" alt="">
+                  <img v-lazy="item.mainImage" alt="">
                 </div>
                 <div class="item-info">
                   <h3>{{ item.name }}</h3>
                   <p>{{ item.subtitle }}</p>
-                  <p class="price" @click="addCart(item.id)">{{ item.price }} 元</p>
+                  <p class="price" @click="addCart(item.id)">{{ item.price }}元</p>
                 </div>
               </div>
             </div>
           </div>
-
-
-
-
         </div>
       </div>
     </div>
     <service-bar></service-bar>
+    <modal title="提示" sureText="查看购物车" btnType="1" modalType="middle" v-bind:showModal="showModal" @submit="goToCart" @cancel="showModal=false">
+      <template v-slot:body>
+        <p>商品添加成功!</p>
+      </template>
+    </modal>
   </div>
 </template>
 
 <script>
 import ServiceBar from "../components/ServiceBar";
 import {Swiper, SwiperSlide} from 'vue-awesome-swiper';
+import Modal from "../components/Modal";
 
 import 'swiper/css/swiper.css'
 
@@ -112,7 +114,8 @@ export default {
   , components: {
     Swiper,
     SwiperSlide,
-    ServiceBar
+    ServiceBar,
+    Modal
   }
   , data() {
     return {
@@ -197,21 +200,22 @@ export default {
         },
       ]
       , phoneList: []
+      ,showModal:false
     }
   }
   , mounted() {
     this.init();
   }
-  ,methods:{
-    init(){
-      this.axios.get('/products',{
-        params:{
-          categoryId:100012,
-          pageSize:14
+  , methods: {
+    init() {
+      this.axios.get('/products', {
+        params: {
+          categoryId: 100012,
+          pageSize: 14
         }
-      }).then((res = {}) => {
-        this.list = res.list.slice(6,14);
-        this.phoneList = [res.list.slice(0,4),res.list.slice(4,8)]
+      }).then((res) => {
+        this.list = res.list.slice(6, 14);
+        this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)]
       })
     },
     addCart(id){
@@ -228,8 +232,6 @@ export default {
     goToCart(){
 
     }
-
-
   }
 }
 </script>
@@ -243,22 +245,25 @@ export default {
   .swiper-box {
     .nav-menu {
       position: absolute;
-      width: 264px;
+      width: 246px;
       height: 451px;
       z-index: 9;
       padding: 26px 0;
       background-color: #55585a7a;
       box-sizing: border-box;
+
       .menu-wrap {
         .menu-item {
           height: 50px;
           line-height: 50px;
+
           a {
             position: relative;
             display: block;
             font-size: 16px;
             color: #ffffff;
             padding-left: 30px;
+
             &:after {
               position: absolute;
               right: 30px;
@@ -267,12 +272,15 @@ export default {
               @include bgImg(10px, 15px, '/imgs/icon-arrow.png');
             }
           }
+
           &:hover {
             background-color: $colorA;
+
             .children {
               display: block;
             }
           }
+
           .children {
             display: none;
             width: 962px;
@@ -311,11 +319,14 @@ export default {
         }
       }
     }
+
     .swiper-container {
       height: 451px;
+
       .swiper-button-prev {
         left: 274px;
       }
+
       img {
         width: 100%;
         height: 100%;
@@ -326,64 +337,69 @@ export default {
     @include flex();
     margin-top: 14px;
     margin-bottom: 31px;
+
     a {
       width: 296px;
       height: 167px;
     }
   }
-  .banner{
+  .banner {
     margin-bottom: 50px;
+    img[lazy='loading'] {
+      width: 1226px;
+      height: 130px;
+    }
   }
   .product-box{
-    background: $colorJ;
-    padding: 30px 0 50px;
-    h2 {
-      font-size: $fontF;
-      height: 21px;
-      line-height: 21px;
-      color: $colorB;
-      margin-bottom: 20px;
+    background-color:$colorJ;
+    padding:30px 0 50px;
+    h2{
+      font-size:$fontF;
+      height:21px;
+      line-height:21px;
+      color:$colorB;
+      margin-bottom:20px;
     }
     .wrapper{
-      display: flex;
-      .banner-left {
-        margin-right: 16px;
+      display:flex;
+      .banner-left{
+        margin-right:16px;
         img{
-          width: 224px;
-          height: 619px;
+          width:224px;
+          height:619px;
         }
       }
       .list-box{
-        .list {
+        .list{
           @include flex();
-          width: 986px;
-          margin-bottom: 14px;
+          width:986px;
+          margin-bottom:14px;
           &:last-child{
-            margin-bottom: 0;
+            margin-bottom:0;
           }
-          .item {
-            width: 236px;
-            height: 302px;
-            background-color: $colorG;
-            text-align: center;
-            span {
-              display: inline-block;
-              width: 67px;
-              height: 24px;
-              font-size: 14px;
-              line-height: 24px;
-              color: $colorG;
+          .item{
+            width:236px;
+            height:302px;
+            background-color:$colorG;
+            text-align:center;
+            span{
+              display:inline-block;
+              width:67px;
+              height:24px;
+              font-size:14px;
+              line-height:24px;
+              color:$colorG;
               &.new-pro{
-                background-color: #7ECF68 ;
+                background-color:#7ECF68;
               }
               &.kill-pro{
-                background-color: #E82626 ;
+                background-color:#E82626;
               }
             }
             .item-img{
               img{
-                width: 100%;
-                height: 195px;
+                width:100%;
+                height:195px;
               }
             }
             .item-info{
@@ -414,19 +430,7 @@ export default {
           }
         }
       }
-
-
     }
   }
 }
 </style>
-
-
-
-
-
-
-
-
-
-
