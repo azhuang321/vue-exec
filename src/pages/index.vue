@@ -345,6 +345,10 @@ export default {
   }
   .banner {
     margin-bottom: 50px;
+    img[lazy='loading'] {
+      width: 1226px;
+      height: 130px;
+    }
   }
   .product-box{
     background-color:$colorJ;
