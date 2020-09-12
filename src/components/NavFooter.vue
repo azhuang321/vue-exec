@@ -19,11 +19,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import '../assets/scss/config';
+<style lang="scss" scoped>
+@import "../assets/scss/config";
 .footer {
   height: 234px;
-  border-top: 1px solid $colorA;
+  border-top: 4px solid $colorA;
   background-color: #333333;
   color: #999999;
   font-size: 16px;
@@ -38,15 +38,14 @@ export default {
     }
   }
   .footer-link{
-    a {
+    a{
       color: #999999;
       display: inline-block;
     }
     span{
-      margin: 0 7px;
+      margin: 0px 7px;
     }
-    margin-bottom: 9px;
+    margin-bottom: 9px ;
   }
 }
-
 </style>

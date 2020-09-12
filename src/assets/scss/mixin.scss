@@ -12,6 +12,7 @@
   background: url($bgImg) no-repeat center;
   background-size: $bg-size;
 }
+
 @mixin position($pos:absolute,$top:0,$left:0,$w:100%,$h:100%){
   position: $pos;
   top: $top;

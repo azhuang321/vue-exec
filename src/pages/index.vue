@@ -104,8 +104,8 @@
 
 <script>
 import ServiceBar from "../components/ServiceBar";
-import {Swiper, SwiperSlide} from 'vue-awesome-swiper';
 import Modal from "../components/Modal";
+import {Swiper, SwiperSlide} from 'vue-awesome-swiper';
 
 import 'swiper/css/swiper.css'
 
@@ -114,8 +114,8 @@ export default {
   , components: {
     Swiper,
     SwiperSlide,
-    ServiceBar,
-    Modal
+    ServiceBar
+    ,Modal
   }
   , data() {
     return {
@@ -200,7 +200,7 @@ export default {
         },
       ]
       , phoneList: []
-      ,showModal:false
+      , showModal:false
     }
   }
   , mounted() {
@@ -345,10 +345,6 @@ export default {
   }
   .banner {
     margin-bottom: 50px;
-    img[lazy='loading'] {
-      width: 1226px;
-      height: 130px;
-    }
   }
   .product-box{
     background-color:$colorJ;

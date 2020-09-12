@@ -24,14 +24,7 @@ if(mock){
 
 //返回值接口拦截
 axios.interceptors.response.use(function (response) {
-    let res = response.data
-    if ( res.status == 0 ) {
-        return res.data
-    }else if ( res.status == 10 ) { //未登录
-        window.location.href('/#/login')
-    }else {
-        alert(res.msg)
-    }
+    let res = response.data;
     let path = location.hash;
     if ( res.status == 0 ) {
         return res.data
@@ -55,7 +48,6 @@ Vue.use(VueLazyload,{
 Vue.config.productionTip = false
 
 new Vue({
-    router,
-    render: h => h(App),
+  router,
+  render: h => h(App),
 }).$mount('#app')
-

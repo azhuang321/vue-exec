@@ -5,50 +5,49 @@
       <div class="modal-dialog">
         <div class="modal-header">
           <span>{{ title }}</span>
-          <a href="javascript:;" class="icon-close" @click="$emit('cancel')"></a>
+          <a href="javascript:;" class="icon-close" v-on:click="$emit('cancel')"></a>
         </div>
         <div class="modal-body">
           <slot name="body"></slot>
         </div>
         <div class="modal-footer">
-          <a href="javascript:;" class="btn" v-if="btnType == 1" @click="$emit('submit')">{{ sureText }}</a>
-          <a href="javascript:;" class="btn" v-if="btnType == 2" @click="$emit('cancel')">{{ cancelText }}</a>
-          <div class="btn-group" v-if="btnType == 3">
-            <a href="javascript:;" class="btn" @click="$emit('submit')">{{ sureText }}</a>
-            <a href="javascript:;" class="btn" @click="$emit('cancel')">{{ cancelText }}</a>
+          <a href="javascript:;" class="btn" v-if="btnType == 1" v-on:click="$emit('sumbit')">{{ sureText }}</a>
+          <a href="javascript:;" class="btn" v-if="btnType == 2" v-on:click="$emit('cancel')">{{ cancelText }}</a>
+          <div class="btn-group" v-if="btnType==3">
+            <a href="javascript:;" class="btn" v-on:click="$emit('sumbit')">{{ sureText }}</a>
+            <a href="javascript:;" class="btn" v-on:click="$emit('cancel')">{{ cancelText }}</a>
           </div>
         </div>
       </div>
     </div>
-
   </transition>
 </template>
 
 <script>
 export default {
   name: "Modal",
-  props:{
-    modalType :{
+  props: {
+    modalType:{
       type:String,
       default:'form'
     },
     title:String,
     btnType:String,
-    sureText :{
+    sureText:{
       type:String,
-      default:'确定'
+      default: '确定'
     },
-    cancelText :{
+    cancelText:{
       type:String,
-      default:'取消'
+      default: '取消'
     },
     showModal:Boolean
-  },
+  }
 }
 </script>
 
 <style lang="scss">
-@import "../assets/scss/config.scss";
-@import "../assets/scss/mixin.scss";
-@import "../assets/scss/modal.scss";
+  @import "../assets/scss/config.scss";
+  @import "../assets/scss/mixin.scss";
+  @import "../assets/scss/modal.scss";
 </style>
